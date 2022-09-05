@@ -5,3 +5,27 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  place-content: center;
+}
+
+#interface {
+  display: inline-block;
+  padding: 24px;
+}
+
+#color-picker {
+  width: 128px;
+  height: 128px;
+  border: none;
+  cursor: pointer;
+}
+
+p {
+  font-family: monospace;
+  padding-top: 0.5rem;
+}
