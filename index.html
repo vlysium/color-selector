@@ -9,13 +9,16 @@
   </head>
   <body>
     <div id="interface">
-      <div class="top-row">
-        <input type="color" id="color-picker" />
-      </div>
-      <div class="bottom-row">
-        <p class="hex">HEX: <span class="hex-value"></span></p>
-        <p class="rgb">RGB: <span class="rgb-value"></span></p>
-        <p class="hsl">HSL: <span class="hsl-value"></span></p>
+      <div class="interface-wrapper">
+        <div class="top-row">
+          <div class="selected-color"></div>
+          <p class="hex">HEX: <span class="hex-value"></span></p>
+          <p class="rgb">RGB: <span class="rgb-value"></span></p>
+          <p class="hsl">HSL: <span class="hsl-value"></span></p>
+        </div>
+        <div class="bottom-row">
+          <label for="color-picker">Select color:<input type="color" id="color-picker" /></label>
+        </div>
       </div>
     </div>
     <script src="script.js"></script>
