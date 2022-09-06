@@ -102,12 +102,14 @@ function convertToHSL(rgb) {
   return { h, s, l };
 }
 
+//display the values in the document
 function displayValues(hex, rgb, hsl) {
   HTML.hexSpan.textContent = `#${hex}`;
   HTML.rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
   HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
+//color the square and outline of the interface
 function colorElements(hex) {
   HTML.selectedColor.style.backgroundColor = `#${hex}`;
   HTML.interface.style.outlineColor = `#${hex}`;
