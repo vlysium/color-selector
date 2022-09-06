@@ -23,7 +23,7 @@ function selectColor() {
   const rgbValue = convertToRGB(hexValue);
   //console.log(rgbValue);
 
-  const hslValue = convertToHSL(hexValue);
+  const hslValue = convertToHSL(rgbValue);
   //console.log(hslValue);
 
   displayValues(hexValue, rgbValue, hslValue);
@@ -36,37 +36,36 @@ function convertToRGB(hex) {
   const green = parseInt("0x" + hex.substring(2, 4));
   const blue = parseInt("0x" + hex.substring(4, 6));
 
-  const rgb = `rgb(${red}, ${green}, ${blue})`;
-
-  return rgb;
+  return { red, green, blue };
 }
 
 //converts the hex value to hsl values
-function convertToHSL(hex) {
-  const red = parseInt("0x" + hex.substring(0, 2)) / 255;
-  const green = parseInt("0x" + hex.substring(2, 4)) / 255;
-  const blue = parseInt("0x" + hex.substring(4, 6)) / 255;
+function convertToHSL(rgb) {
+  const r = rgb.red / 255;
+  const g = rgb.green / 255;
+  const b = rgb.blue / 255;
 
+  //hue, saturation, luminance
   let h, s, l;
 
-  const min = Math.min(red, green, blue);
-  const max = Math.max(red, green, blue);
+  const min = Math.min(r, g, b);
+  const max = Math.max(r, g, b);
 
   switch (max) {
     case min:
       h = 0;
       break;
 
-    case red:
-      h = 60 * (0 + (green - blue) / (max - min));
+    case r:
+      h = 60 * (0 + (g - b) / (max - min));
       break;
 
-    case green:
-      h = 60 * (2 + (blue - red) / (max - min));
+    case g:
+      h = 60 * (2 + (b - r) / (max - min));
       break;
 
-    case blue:
-      h = 60 * (4 + (red - green) / (max - min));
+    case b:
+      h = 60 * (4 + (r - g) / (max - min));
       break;
   }
 
@@ -93,15 +92,13 @@ function convertToHSL(hex) {
   s = Math.round(s);
   l = Math.round(l);
 
-  const hsl = `hsl(${h}, ${s}%, ${l}%)`;
-
-  return hsl;
+  return { h, s, l };
 }
 
 function displayValues(hex, rgb, hsl) {
   HTML.hexSpan.textContent = `#${hex}`;
-  HTML.rgbSpan.textContent = `${rgb}`;
-  HTML.hslSpan.textContent = `${hsl}`;
+  HTML.rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
+  HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
   HTML.selectedColor.style.backgroundColor = `#${hex}`;
   HTML.interface.style.outlineColor = `#${hex}`;
 }
