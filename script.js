@@ -27,6 +27,8 @@ function selectColor() {
   //console.log(hslValue);
 
   displayValues(hexValue, rgbValue, hslValue);
+
+  colorElements(hexValue);
 }
 
 //converts the hex value to rgb values
@@ -52,28 +54,33 @@ function convertToHSL(rgb) {
   const max = Math.max(r, g, b);
 
   switch (max) {
+    //if max === min
     case min:
       h = 0;
       break;
 
+    //if max === r
     case r:
       h = 60 * (0 + (g - b) / (max - min));
       break;
 
+    //if max === g
     case g:
       h = 60 * (2 + (b - r) / (max - min));
       break;
 
+    //if max === b
     case b:
       h = 60 * (4 + (r - g) / (max - min));
       break;
   }
 
+  //cycle between 0 to 360 degrees
   if (h < 0) {
     h = h + 360;
   }
 
-  //calculate luminance/brightness
+  //calculate luminance
   l = (min + max) / 2;
 
   //calculate saturation
@@ -99,6 +106,9 @@ function displayValues(hex, rgb, hsl) {
   HTML.hexSpan.textContent = `#${hex}`;
   HTML.rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
   HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
+}
+
+function colorElements(hex) {
   HTML.selectedColor.style.backgroundColor = `#${hex}`;
   HTML.interface.style.outlineColor = `#${hex}`;
 }
