@@ -20,6 +20,8 @@ body {
   border-radius: 16px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 96px;
+  min-width: 15rem;
+  outline: 2px solid transparent;
 }
 
 .interface-wrapper {
@@ -38,18 +40,18 @@ body {
 }
 
 #color-picker {
-  height: 14px;
+  height: 16px;
   width: 32px;
   border: none;
   margin-left: 8px;
 }
 
 .selected-color {
-  width: 96px;
-  height: 96px;
+  width: 120px;
+  height: 120px;
   border-radius: 16px;
   background-color: black;
-  margin: 24px auto;
+  margin: 36px auto;
 }
 
 p,

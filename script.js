@@ -11,18 +11,19 @@ function init() {
   HTML.rgbSpan = document.querySelector(".rgb-value"); //rgb value will be displayed in this span element
   HTML.hslSpan = document.querySelector(".hsl-value"); //hsl value will be displayed in this span element
   HTML.selectedColor = document.querySelector(".selected-color"); //color box element
+  HTML.interface = document.getElementById("interface"); //the interface
   HTML.colorPicker.addEventListener("input", selectColor);
 }
 
 //get the selected color
 function selectColor() {
-  const hexValue = this.value.substring(this.value.length - 6);
+  const hexValue = this.value.substring(1);
   //console.log(hexValue);
 
   const rgbValue = convertToRGB(hexValue);
   //console.log(rgbValue);
 
-  let hslValue = convertToHSL(hexValue);
+  const hslValue = convertToHSL(hexValue);
   //console.log(hslValue);
 
   displayValues(hexValue, rgbValue, hslValue);
@@ -35,7 +36,7 @@ function convertToRGB(hex) {
   const green = parseInt("0x" + hex.substring(2, 4));
   const blue = parseInt("0x" + hex.substring(4, 6));
 
-  const rgb = `${red}, ${green}, ${blue}`;
+  const rgb = `rgb(${red}, ${green}, ${blue})`;
 
   return rgb;
 }
@@ -92,7 +93,7 @@ function convertToHSL(hex) {
   s = Math.round(s);
   l = Math.round(l);
 
-  const hsl = `${h}°, ${s}%, ${l}%`;
+  const hsl = `hsl(${h}, ${s}%, ${l}%)`;
 
   return hsl;
 }
@@ -102,4 +103,5 @@ function displayValues(hex, rgb, hsl) {
   HTML.rgbSpan.textContent = `${rgb}`;
   HTML.hslSpan.textContent = `${hsl}`;
   HTML.selectedColor.style.backgroundColor = `#${hex}`;
+  HTML.interface.style.outlineColor = `#${hex}`;
 }
