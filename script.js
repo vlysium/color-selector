@@ -105,7 +105,7 @@ function convertToHSL(rgb) {
 function displayValues(hex, rgb, hsl) {
   HTML.hexSpan.textContent = `#${hex}`;
   HTML.rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-  HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
+  HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 function colorElements(hex) {
