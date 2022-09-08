@@ -17,7 +17,8 @@ function init() {
   HTML.secondaryInterface = document.querySelectorAll(".secondary-interface"); //secondary interfaces
 
   HTML.radioButtons = document.querySelectorAll(".harmony input"); //radio buttons for harmonies
-  HTML.selectedHarmony = "analogous"; //variable for harmony mode, default is "analogous"
+  HTML.selectedHarmony = "analogous"; //variable for harmony mode, analogous is default
+  document.querySelector(".default").checked = true; //auto-check analogous
 
   HTML.colorPicker.addEventListener("input", selectColor);
   HTML.radioButtons.forEach((button) => button.addEventListener("input", harmonyMode));
@@ -186,32 +187,135 @@ function harmony(hex, rgb, hsl) {
     const colorSquare = interface.querySelector(".selected-color");
     const weight = interface.dataset.weight;
 
+    let hslShifted, hexShifted, rgbShifted;
+
     switch (HTML.selectedHarmony) {
       case "analogous":
-        const hslShifted = analogous(hsl, weight);
-        const hexShifted = convertToHex(hslShifted);
-        const rgbShifted = convertToRGB(hexShifted);
-        displayValues(hexShifted, rgbShifted, hslShifted, hexSpan, rgbSpan, hslSpan);
-        colorElements(hslShifted, colorSquare, interface);
+        hslShifted = analogous(hsl, weight);
         break;
       case "monochromatic":
+        hslShifted = monochromatic(hsl, weight);
         break;
       case "triad":
+        hslShifted = triad(hsl, weight);
         break;
       case "complementary":
+        hslShifted = complementary(hsl, weight);
         break;
       case "compound":
+        hslShifted = compound(hsl, weight);
         break;
       case "shades":
+        hslShifted = shades(hsl, weight);
         break;
     }
+
+    hexShifted = convertToHex(hslShifted);
+    rgbShifted = convertToRGB(hexShifted);
+
+    displayValues(hexShifted, rgbShifted, hslShifted, hexSpan, rgbSpan, hslSpan);
+    colorElements(hslShifted, colorSquare, interface);
   });
 }
 
+//shift hue by +-8 and +-16 degrees
 function analogous(hsl, weight) {
   const h = 8 * weight + hsl.h;
   const s = hsl.s;
   const l = hsl.l;
+
+  return { h, s, l };
+}
+
+//shift saturation by +-20 or luminance by +-16
+function monochromatic(hsl, weight) {
+  let h, s, l;
+
+  switch (weight) {
+    case "-2":
+      h = hsl.h;
+      s = hsl.s;
+      l = hsl.l - 16;
+      break;
+
+    case "-1":
+      h = hsl.h;
+      s = hsl.s + 20;
+      l = hsl.l;
+      break;
+
+    case "1":
+      h = hsl.h;
+      s = hsl.s - 20;
+      l = hsl.l;
+      break;
+
+    case "2":
+      h = hsl.h;
+      s = hsl.s;
+      l = hsl.l + 16;
+      break;
+  }
+
+  return { h, s, l };
+}
+
+//shift hue by +-120 and +-240 degrees, and luminance by +-10 and +-20
+function triad(hsl, weight) {
+  const h = 120 * weight + hsl.h;
+  const s = hsl.s;
+  const l = 10 * weight + hsl.l;
+
+  return { h, s, l };
+}
+
+//shift hue by +-180 and +-360 degrees, and luminance by either -10, 0, +20 or +30
+function complementary(hsl, weight) {
+  const h = 180 * weight + hsl.h;
+  const s = hsl.s;
+  const l = 10 * weight + hsl.l + 10;
+
+  return { h, s, l };
+}
+
+//shift hue by +195, +180, +15 and +30 degrees
+function compound(hsl, weight) {
+  let h, s, l;
+
+  switch (weight) {
+    case "-2":
+      h = hsl.h + 195;
+      s = hsl.s;
+      l = hsl.l;
+      break;
+
+    case "-1":
+      h = hsl.h + 180;
+      s = hsl.s;
+      l = hsl.l;
+      break;
+
+    case "1":
+      h = hsl.h + 15;
+      s = hsl.s;
+      l = hsl.l;
+      break;
+
+    case "2":
+      h = hsl.h + 30;
+      s = hsl.s;
+      l = hsl.l;
+      break;
+  }
+
+  return { h, s, l };
+}
+
+//shift luminance by 10 and 20
+function shades(hsl, weight) {
+  const h = hsl.h;
+  const s = hsl.s;
+  const l = 10 * weight + hsl.l;
 
   return { h, s, l };
 }
