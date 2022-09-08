@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", init);
 //initialize
 function init() {
   HTML.colorPicker = document.getElementById("color-picker"); //color input element
-  HTML.hexSpan = document.querySelector(".hex-value"); //hex value will be displayed in this span element
-  HTML.rgbSpan = document.querySelector(".rgb-value"); //rgb value will be displayed in this span element
-  HTML.hslSpan = document.querySelector(".hsl-value"); //hsl value will be displayed in this span element
-  HTML.selectedColor = document.querySelector(".selected-color"); //color box element
-  HTML.interface = document.getElementById("interface"); //the interface
+  HTML.hexSpan = document.querySelector("#main-interface .hex-value"); //hex value will be displayed in this span element
+  HTML.rgbSpan = document.querySelector("#main-interface .rgb-value"); //rgb value will be displayed in this span element
+  HTML.hslSpan = document.querySelector("#main-interface .hsl-value"); //hsl value will be displayed in this span element
+  HTML.selectedColor = document.querySelector("#main-interface .selected-color"); //color box element
+  HTML.interface = document.querySelector("#main-interface"); //the main interface
   HTML.colorPicker.addEventListener("input", selectColor);
 }
 

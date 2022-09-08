@@ -8,19 +8,77 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="interface">
-      <div class="interface-wrapper">
-        <div class="top-row">
-          <div class="selected-color"></div>
-          <p class="hex">HEX: <span class="hex-value"></span></p>
-          <p class="rgb">RGB: <span class="rgb-value"></span></p>
-          <p class="hsl">HSL: <span class="hsl-value"></span></p>
-        </div>
-        <div class="bottom-row">
-          <label for="color-picker">Select color:<input type="color" id="color-picker" /></label>
+    <section id="harmonies">
+      <label class="harmony"><input type="radio" name="harmony" value="analogous" checked />Analogous</label>
+      <label class="harmony"><input type="radio" name="harmony" value="monochromatic" />Monochromatic</label>
+      <label class="harmony"><input type="radio" name="harmony" value="triad" />Triad</label>
+      <label class="harmony"><input type="radio" name="harmony" value="complementary" />Complementary</label>
+      <label class="harmony"><input type="radio" name="harmony" value="compound" />Compound</label>
+      <label class="harmony"><input type="radio" name="harmony" value="shades" />Shades</label>
+    </section>
+    <main>
+      <!---->
+      <div class="interface">
+        <div class="interface-wrapper">
+          <div class="top-row">
+            <div class="selected-color"></div>
+            <p class="hex">HEX: <span class="hex-value"></span></p>
+            <p class="rgb">RGB: <span class="rgb-value"></span></p>
+            <p class="hsl">HSL: <span class="hsl-value"></span></p>
+          </div>
         </div>
       </div>
-    </div>
+      <!---->
+      <div class="interface">
+        <div class="interface-wrapper">
+          <div class="top-row">
+            <div class="selected-color"></div>
+            <p class="hex">HEX: <span class="hex-value"></span></p>
+            <p class="rgb">RGB: <span class="rgb-value"></span></p>
+            <p class="hsl">HSL: <span class="hsl-value"></span></p>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div id="main-interface" class="interface">
+        <div class="interface-wrapper">
+          <div class="top-row">
+            <div class="selected-color"></div>
+            <p class="hex">HEX: <span class="hex-value"></span></p>
+            <p class="rgb">RGB: <span class="rgb-value"></span></p>
+            <p class="hsl">HSL: <span class="hsl-value"></span></p>
+          </div>
+          <div class="bottom-row">
+            <label for="color-picker" id="color-picker-label"
+              >Select color:<input type="color" id="color-picker"
+            /></label>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="interface">
+        <div class="interface-wrapper">
+          <div class="top-row">
+            <div class="selected-color"></div>
+            <p class="hex">HEX: <span class="hex-value"></span></p>
+            <p class="rgb">RGB: <span class="rgb-value"></span></p>
+            <p class="hsl">HSL: <span class="hsl-value"></span></p>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="interface">
+        <div class="interface-wrapper">
+          <div class="top-row">
+            <div class="selected-color"></div>
+            <p class="hex">HEX: <span class="hex-value"></span></p>
+            <p class="rgb">RGB: <span class="rgb-value"></span></p>
+            <p class="hsl">HSL: <span class="hsl-value"></span></p>
+          </div>
+        </div>
+      </div>
+      <!---->
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
