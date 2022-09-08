@@ -60,13 +60,13 @@ main {
   z-index: 2;
 }
 
-#main-interface {
+#primary-interface {
   background-color: #ffffff;
   font-size: 1rem;
   z-index: 3;
 }
 
-#main-interface .interface-wrapper {
+#primary-interface .interface-wrapper {
   display: grid;
   grid-template-rows: 3fr auto;
   grid-template-columns: 1fr;

@@ -1,18 +1,25 @@
 "use script";
 
-const HTML = [];
+const HTML = []; //array of variables
 
 document.addEventListener("DOMContentLoaded", init);
 
 //initialize
 function init() {
   HTML.colorPicker = document.getElementById("color-picker"); //color input element
-  HTML.hexSpan = document.querySelector("#main-interface .hex-value"); //hex value will be displayed in this span element
-  HTML.rgbSpan = document.querySelector("#main-interface .rgb-value"); //rgb value will be displayed in this span element
-  HTML.hslSpan = document.querySelector("#main-interface .hsl-value"); //hsl value will be displayed in this span element
-  HTML.selectedColor = document.querySelector("#main-interface .selected-color"); //color box element
-  HTML.interface = document.querySelector("#main-interface"); //the main interface
+  HTML.primaryHexSpan = document.querySelector("#primary-interface .hex-value"); //primary hex value
+  HTML.secondaryHexSpan = document.querySelectorAll(".secondary-interface .hex-value"); //secondary hex values
+  HTML.primaryRGBSpan = document.querySelector("#primary-interface .rgb-value"); //primary rgb value
+  HTML.secondaryRGBSpan = document.querySelectorAll(".secondary-interface .rgb-value"); //secondary rgb values
+  HTML.primaryHSLSpan = document.querySelector("#primary-interface .hsl-value"); //primary hsl value
+  HTML.secondaryHSLSpan = document.querySelectorAll(".secondary-interface .hsl-value"); //secondary hsl values
+  HTML.primarySelectedColor = document.querySelector("#primary-interface .selected-color"); //primary color square element
+  HTML.secondarySelectedColor = document.querySelector(".secondary-interface .selected-color"); //secondary color square element
+  HTML.primaryInterface = document.querySelector("#primary-interface"); //the primary interface
   HTML.colorPicker.addEventListener("input", selectColor);
+  HTML.radioButtons = document.querySelectorAll(".harmony input"); //radio buttons for harmonies
+  HTML.selectedHarmony = "analogous"; //variable for harmony mode, default is "analogous"
+  HTML.radioButtons.forEach((button) => button.addEventListener("input", harmonyMode));
 }
 
 //get the selected color
@@ -26,9 +33,11 @@ function selectColor() {
   const hslValue = convertToHSL(rgbValue);
   //console.log(hslValue);
 
-  displayValues(hexValue, rgbValue, hslValue);
+  displayValues(hexValue, rgbValue, hslValue, HTML.primaryHexSpan, HTML.primaryRGBSpan, HTML.primaryHSLSpan);
 
-  colorElements(hexValue);
+  colorElements(hexValue, HTML.primarySelectedColor, HTML.primaryInterface);
+
+  harmony(hslValue);
 }
 
 //converts the hex value to rgb values
@@ -103,14 +112,36 @@ function convertToHSL(rgb) {
 }
 
 //display the values in the document
-function displayValues(hex, rgb, hsl) {
-  HTML.hexSpan.textContent = `#${hex}`;
-  HTML.rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-  HTML.hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+function displayValues(hex, rgb, hsl, hexSpan, rgbSpan, hslSpan) {
+  hexSpan.textContent = `#${hex}`;
+  rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
+  hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 //color the square and outline of the interface
-function colorElements(hex) {
-  HTML.selectedColor.style.backgroundColor = `#${hex}`;
-  HTML.interface.style.outlineColor = `#${hex}`;
+function colorElements(hex, selectedColor, interface) {
+  selectedColor.style.backgroundColor = `#${hex}`;
+  interface.style.outlineColor = `#${hex}`;
+}
+
+//change the harmony mode to the selected radio button
+function harmonyMode() {
+  HTML.selectedHarmony = this.value;
+}
+
+function harmony(mainColor) {
+  switch (HTML.selectedHarmony) {
+    case "analogous":
+      break;
+    case "monochromatic":
+      break;
+    case "triad":
+      break;
+    case "complementary":
+      break;
+    case "compound":
+      break;
+    case "shades":
+      break;
+  }
 }
