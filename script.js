@@ -7,18 +7,19 @@ document.addEventListener("DOMContentLoaded", init);
 //initialize
 function init() {
   HTML.colorPicker = document.getElementById("color-picker"); //color input element
-  HTML.primaryHexSpan = document.querySelector("#primary-interface .hex-value"); //primary hex value
-  HTML.secondaryHexSpan = document.querySelectorAll(".secondary-interface .hex-value"); //secondary hex values
-  HTML.primaryRGBSpan = document.querySelector("#primary-interface .rgb-value"); //primary rgb value
-  HTML.secondaryRGBSpan = document.querySelectorAll(".secondary-interface .rgb-value"); //secondary rgb values
-  HTML.primaryHSLSpan = document.querySelector("#primary-interface .hsl-value"); //primary hsl value
-  HTML.secondaryHSLSpan = document.querySelectorAll(".secondary-interface .hsl-value"); //secondary hsl values
-  HTML.primarySelectedColor = document.querySelector("#primary-interface .selected-color"); //primary color square element
-  HTML.secondarySelectedColor = document.querySelector(".secondary-interface .selected-color"); //secondary color square element
+
   HTML.primaryInterface = document.querySelector("#primary-interface"); //the primary interface
-  HTML.colorPicker.addEventListener("input", selectColor);
+  HTML.primaryHexSpan = HTML.primaryInterface.querySelector(".hex-value"); //primary hex value
+  HTML.primaryRGBSpan = HTML.primaryInterface.querySelector(".rgb-value"); //primary rgb value
+  HTML.primaryHSLSpan = HTML.primaryInterface.querySelector(".hsl-value"); //primary hsl value
+  HTML.primarySelectedColor = HTML.primaryInterface.querySelector(".selected-color"); //primary color square element
+
+  HTML.secondaryInterface = document.querySelectorAll(".secondary-interface"); //secondary interfaces
+
   HTML.radioButtons = document.querySelectorAll(".harmony input"); //radio buttons for harmonies
   HTML.selectedHarmony = "analogous"; //variable for harmony mode, default is "analogous"
+
+  HTML.colorPicker.addEventListener("input", selectColor);
   HTML.radioButtons.forEach((button) => button.addEventListener("input", harmonyMode));
 }
 
@@ -35,9 +36,9 @@ function selectColor() {
 
   displayValues(hexValue, rgbValue, hslValue, HTML.primaryHexSpan, HTML.primaryRGBSpan, HTML.primaryHSLSpan);
 
-  colorElements(hexValue, HTML.primarySelectedColor, HTML.primaryInterface);
+  colorElements(hslValue, HTML.primarySelectedColor, HTML.primaryInterface);
 
-  harmony(hslValue);
+  harmony(hexValue, rgbValue, hslValue);
 }
 
 //converts the hex value to rgb values
@@ -111,17 +112,63 @@ function convertToHSL(rgb) {
   return { h, s, l };
 }
 
+//converts the hsl value to hex values
+function convertToHex(hsl) {
+  const h = hsl.h;
+  const s = hsl.s / 100;
+  const l = hsl.l / 100;
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = l - c / 2,
+    r = 0,
+    g = 0,
+    b = 0;
+
+  if (0 <= h && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (60 <= h && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (240 <= h && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (300 <= h && h < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  return r.toString(16) + g.toString(16) + b.toString(16);
+}
+
 //display the values in the document
 function displayValues(hex, rgb, hsl, hexSpan, rgbSpan, hslSpan) {
   hexSpan.textContent = `#${hex}`;
   rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-  hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  hslSpan.textContent = `hsl(${hsl.h < 0 ? hsl.h + 360 : hsl.h > 360 ? hsl.h - 360 : hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 //color the square and outline of the interface
-function colorElements(hex, selectedColor, interface) {
-  selectedColor.style.backgroundColor = `#${hex}`;
-  interface.style.outlineColor = `#${hex}`;
+function colorElements(hsl, selectedColor, interface) {
+  selectedColor.style.backgroundColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  interface.style.outlineColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 //change the harmony mode to the selected radio button
@@ -129,19 +176,42 @@ function harmonyMode() {
   HTML.selectedHarmony = this.value;
 }
 
-function harmony(mainColor) {
-  switch (HTML.selectedHarmony) {
-    case "analogous":
-      break;
-    case "monochromatic":
-      break;
-    case "triad":
-      break;
-    case "complementary":
-      break;
-    case "compound":
-      break;
-    case "shades":
-      break;
-  }
+//find harmonies
+function harmony(hex, rgb, hsl) {
+  HTML.secondaryInterface.forEach((interface) => {
+    //console.log(interface);
+    const hexSpan = interface.querySelector(".hex-value");
+    const rgbSpan = interface.querySelector(".rgb-value");
+    const hslSpan = interface.querySelector(".hsl-value");
+    const colorSquare = interface.querySelector(".selected-color");
+    const weight = interface.dataset.weight;
+
+    switch (HTML.selectedHarmony) {
+      case "analogous":
+        const hslShifted = analogous(hsl, weight);
+        const hexShifted = convertToHex(hslShifted);
+        const rgbShifted = convertToRGB(hexShifted);
+        displayValues(hexShifted, rgbShifted, hslShifted, hexSpan, rgbSpan, hslSpan);
+        colorElements(hslShifted, colorSquare, interface);
+        break;
+      case "monochromatic":
+        break;
+      case "triad":
+        break;
+      case "complementary":
+        break;
+      case "compound":
+        break;
+      case "shades":
+        break;
+    }
+  });
+}
+
+function analogous(hsl, weight) {
+  const h = 8 * weight + hsl.h;
+  const s = hsl.s;
+  const l = hsl.l;
+
+  return { h, s, l };
 }

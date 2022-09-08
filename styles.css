@@ -22,12 +22,18 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 48px;
+  place-items: center;
 }
 
 .harmony {
   padding: 4px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+#harmonies p {
   font-size: 1rem;
 }
 
@@ -45,11 +51,11 @@ main {
 
 .interface {
   display: inline-block;
-  padding: 16px;
+  padding: 14px;
   border-radius: 16px;
-  background-color: #fdfdfd;
+  background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 96px;
-  min-width: 12rem;
+  min-width: 10rem;
   outline: 2px solid transparent;
   height: max-content;
   font-size: 0.9rem;
@@ -61,9 +67,10 @@ main {
 }
 
 #primary-interface {
-  background-color: #ffffff;
   font-size: 1rem;
   z-index: 3;
+  padding: 16px;
+  min-width: 15rem;
 }
 
 #primary-interface .interface-wrapper {
@@ -93,6 +100,10 @@ main {
   height: 100px;
   border-radius: 16px;
   background-color: black;
+  margin: 16px auto;
+}
+
+#primary-interface .selected-color {
   margin: 24px auto;
 }
 
