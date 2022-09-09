@@ -1,4 +1,4 @@
-"use script";
+"use strict";
 
 const HTML = []; //array of variables
 
@@ -167,9 +167,9 @@ function displayValues(hex, rgb, hsl, hexSpan, rgbSpan, hslSpan) {
 }
 
 //color the square and outline of the interface
-function colorElements(hsl, selectedColor, interface) {
+function colorElements(hsl, selectedColor, interfaceElement) {
   selectedColor.style.backgroundColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-  interface.style.outlineColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  interfaceElement.style.outlineColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 //change the harmony mode to the selected radio button
@@ -179,13 +179,13 @@ function harmonyMode() {
 
 //find harmonies
 function harmony(hsl) {
-  HTML.secondaryInterface.forEach((interface) => {
-    //console.log(interface);
-    const hexSpan = interface.querySelector(".hex-value");
-    const rgbSpan = interface.querySelector(".rgb-value");
-    const hslSpan = interface.querySelector(".hsl-value");
-    const colorSquare = interface.querySelector(".selected-color");
-    const weight = interface.dataset.weight;
+  HTML.secondaryInterface.forEach((interfaceElement) => {
+    //console.log(interfaceElement);
+    const hexSpan = interfaceElement.querySelector(".hex-value");
+    const rgbSpan = interfaceElement.querySelector(".rgb-value");
+    const hslSpan = interfaceElement.querySelector(".hsl-value");
+    const colorSquare = interfaceElement.querySelector(".selected-color");
+    const weight = interfaceElement.dataset.weight;
 
     let hslShifted, hexShifted, rgbShifted;
 
@@ -216,7 +216,7 @@ function harmony(hsl) {
     rgbShifted = convertToRGB(hexShifted);
 
     displayValues(hexShifted, rgbShifted, hslShiftedAdjusted, hexSpan, rgbSpan, hslSpan);
-    colorElements(hslShiftedAdjusted, colorSquare, interface);
+    colorElements(hslShiftedAdjusted, colorSquare, interfaceElement);
   });
 }
 
