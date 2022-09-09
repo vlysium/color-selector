@@ -39,7 +39,7 @@ function selectColor() {
 
   colorElements(hslValue, HTML.primarySelectedColor, HTML.primaryInterface);
 
-  harmony(hexValue, rgbValue, hslValue);
+  harmony(hslValue);
 }
 
 //converts the hex value to rgb values
@@ -163,7 +163,7 @@ function convertToHex(hsl) {
 function displayValues(hex, rgb, hsl, hexSpan, rgbSpan, hslSpan) {
   hexSpan.textContent = `#${hex}`;
   rgbSpan.textContent = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-  hslSpan.textContent = `hsl(${hsl.h < 0 ? hsl.h + 360 : hsl.h > 360 ? hsl.h - 360 : hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  hslSpan.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
 //color the square and outline of the interface
@@ -178,7 +178,7 @@ function harmonyMode() {
 }
 
 //find harmonies
-function harmony(hex, rgb, hsl) {
+function harmony(hsl) {
   HTML.secondaryInterface.forEach((interface) => {
     //console.log(interface);
     const hexSpan = interface.querySelector(".hex-value");
@@ -210,11 +210,13 @@ function harmony(hex, rgb, hsl) {
         break;
     }
 
-    hexShifted = convertToHex(hslShifted);
+    const hslShiftedAdjusted = degreesLimit(hslShifted);
+
+    hexShifted = convertToHex(hslShiftedAdjusted);
     rgbShifted = convertToRGB(hexShifted);
 
-    displayValues(hexShifted, rgbShifted, hslShifted, hexSpan, rgbSpan, hslSpan);
-    colorElements(hslShifted, colorSquare, interface);
+    displayValues(hexShifted, rgbShifted, hslShiftedAdjusted, hexSpan, rgbSpan, hslSpan);
+    colorElements(hslShiftedAdjusted, colorSquare, interface);
   });
 }
 
@@ -316,6 +318,16 @@ function shades(hsl, weight) {
   const h = hsl.h;
   const s = hsl.s;
   const l = 10 * weight + hsl.l;
+
+  return { h, s, l };
+}
+
+//adjust the hue if it's smaller than 0 degrees or greater than 360 degrees,
+//so the convertion of hsl to hex/rgb is using and displaying the correct values
+function degreesLimit(hsl) {
+  const h = hsl.h < 0 ? hsl.h + 360 : hsl.h > 360 ? hsl.h - 360 : hsl.h;
+  const s = hsl.s;
+  const l = hsl.l;
 
   return { h, s, l };
 }
