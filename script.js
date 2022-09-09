@@ -26,7 +26,7 @@ function init() {
 
 //get the selected color
 function selectColor() {
-  const hexValue = this.value.substring(1);
+  const hexValue = HTML.colorPicker.value.substring(1); //changed from this.value to allow instant color change upon selecting a harmony mode
   //console.log(hexValue);
 
   const rgbValue = convertToRGB(hexValue);
@@ -175,6 +175,7 @@ function colorElements(hsl, selectedColor, interfaceElement) {
 //change the harmony mode to the selected radio button
 function harmonyMode() {
   HTML.selectedHarmony = this.value;
+  selectColor();
 }
 
 //find harmonies
