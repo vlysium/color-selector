@@ -326,7 +326,7 @@ function shades(hsl, weight) {
 //adjust the hue if it's smaller than 0 degrees or greater than 360 degrees,
 //so the convertion of hsl to hex/rgb is using and displaying the correct values
 function degreesLimit(hsl) {
-  const h = hsl.h < 0 ? hsl.h + 360 : hsl.h > 360 ? hsl.h - 360 : hsl.h;
+  const h = hsl.h <= 0 ? hsl.h + 360 : hsl.h > 360 ? hsl.h - 360 : hsl.h;
   const s = hsl.s;
   const l = hsl.l;
 
